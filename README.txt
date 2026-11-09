@@ -4,6 +4,7 @@ Frontend: Vercel | Database + authentication: Supabase
 WHAT THIS UPDATE DOES
 - Replaces browser localStorage with a shared Supabase PostgreSQL database.
 - Adds email/password staff sign-in and sign-out.
+- Remembers sign-in sessions across visits until sign-out or session expiry; use only on trusted devices.
 - Adds database-backed add, edit, delete (admin only), search, QR lookup and CSV export.
 - Refreshes inventory when another staff member changes records.
 - Enables Row Level Security policies; the browser uses only the Supabase anon/public key.

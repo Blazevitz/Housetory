@@ -101,7 +101,9 @@ async function startApp(){
     setAuthMessage("Setup required: add your Supabase Project URL and anon/public key in supabase-config.js, then redeploy.");
     $("loginBtn").disabled=true;return;
   }
-  supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{
+    auth:{persistSession:true,autoRefreshToken:true}
+  });
   $("loginForm").addEventListener("submit",signIn);
   $("signOutBtn").addEventListener("click",async()=>{if(scanner){try{await scanner.stop();}catch{}}await supabase.auth.signOut();if(realtimeChannel)supabase.removeChannel(realtimeChannel);showAuth(true);});
   const {data:{session}}=await supabase.auth.getSession();await activateSession(session);
