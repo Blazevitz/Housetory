@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Housetory | Hotel Linen & Asset Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="modern.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark"><img src="logo.svg" alt=""></div><div><b>Housetory</b><small>HOTEL OPERATIONS</small></div></div>
+    <div class="side-label">WORKSPACE</div>
+    <button class="nav active" data-page="overview"><span>▦</span> Overview</button>
+    <button class="nav" data-page="inventory"><span>▤</span> Inventory</button>
+    <button class="nav" data-page="scanner"><span>▧</span> QR Scanner</button>
+    <button class="nav" data-page="reports"><span>▥</span> Reports</button>
+    <div class="sidebar-bottom"><div class="avatar">HK</div><div><b>Housekeeping</b><small>Staff workspace</small></div></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar"><div><div class="eyebrow">HOTEL LINEN & ASSET MANAGEMENT</div><h1 id="pageTitle">Overview</h1></div><div class="top-actions"><span class="today" id="today"></span><span id="currentUser" class="current-user"></span><button class="secondary" id="signOutBtn">Sign out</button><button class="primary" id="addTop">＋ Add item</button></div></header>
+
+    <section class="page active" id="overview">
+      <div class="welcome"><div><span class="eyebrow light">OPERATIONS DASHBOARD</span><h2>Good day, team.</h2><p>Keep every linen item accounted for, from storage to guest rooms.</p></div></div>
+      <div class="stats">
+        <article class="stat-card"><div class="stat-top"><span>Total items</span><span class="stat-icon blue">▤</span></div><strong id="totalStat">0</strong><small>Registered assets</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Available</span><span class="stat-icon green">✓</span></div><strong id="availableStat">0</strong><small>Ready for use</small></article>
+        <article class="stat-card"><div class="stat-top"><span>In use</span><span class="stat-icon purple">⌂</span></div><strong id="inUseStat">0</strong><small>Assigned to rooms</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Needs attention</span><span class="stat-icon orange">!</span></div><strong id="attentionStat">0</strong><small>Damaged or missing</small></article>
+      </div>
+      <div class="content-grid">
+        <section class="panel"><div class="panel-heading"><div><h3>Recent inventory</h3><p>Latest registered hotel assets</p></div><button class="text-btn" data-goto="inventory">View inventory →</button></div><div class="table-wrap"><table><thead><tr><th>ITEM</th><th>ITEM ID</th><th>LOCATION</th><th>STATUS</th></tr></thead><tbody id="recentRows"></tbody></table></div></section>
+        <section class="panel quick-panel"><div class="panel-heading"><div><h3>Quick actions</h3><p>Common housekeeping tasks</p></div></div><button class="quick-action" data-goto="scanner"><span class="quick-icon">▧</span><span><b>Scan an item</b><small>Read an item's QR code</small></span><i>→</i></button><button class="quick-action" id="quickAdd"><span class="quick-icon">＋</span><span><b>Register new item</b><small>Add a linen or hotel asset</small></span><i>→</i></button><div class="tip"><b>TIP</b><p>Give every physical item a unique ID and QR label so its records can be updated individually.</p></div></section>
+      </div>
+    </section>
+
+    <section class="page" id="inventory">
+      <div class="toolbar"><div><h2>All inventory</h2><p>Manage linen and other hotel assets.</p></div><button class="primary" id="addInventory">＋ Register item</button></div>
+      <div class="filters"><input id="searchInput" placeholder="⌕  Search item name or ID..."><select id="statusFilter"><option value="">All statuses</option><option>Available</option><option>In Use</option><option>Damaged</option><option>Missing</option><option>In Laundry</option></select><select id="categoryFilter"><option value="">All categories</option><option>Bed Linen</option><option>Bath Linen</option><option>Room Supplies</option><option>Other</option></select></div>
+      <section class="panel"><div class="table-wrap"><table><thead><tr><th>ITEM</th><th>ITEM ID</th><th>CATEGORY</th><th>LOCATION / ROOM</th><th>STATUS</th><th>VALUE</th><th>ACTIONS</th></tr></thead><tbody id="inventoryRows"></tbody></table></div><div class="empty hidden" id="emptyState">No items found. Add your first hotel asset.</div></section>
+    </section>
+
+    <section class="page" id="scanner">
+      <div class="toolbar"><div><h2>QR code scanner</h2><p>Scan an asset label to open its inventory record.</p></div></div>
+        <div class="scanner-layout"><section class="panel scanner-panel"><div class="scanner-head"><span class="stat-icon purple">▧</span><div><h3>Scan QR label</h3><p>Allow camera access when your browser asks.</p></div></div><div id="reader"></div><button class="primary full" id="startScan">Start camera scanner</button><button class="secondary full hidden" id="stopScan">Stop scanner</button><div class="or">OR ENTER ITEM ID</div><div class="manual-row"><input id="manualId" placeholder="e.g. PC-001"><button class="secondary" id="lookupId">Find item</button></div><small class="muted">Camera scanning requires HTTPS or localhost. In VS Code, use the Live Server extension.</small></section><section class="panel scan-help"><h3>How it works</h3><ol><li>Find the QR label attached to a pillowcase, towel, or other asset.</li><li>Point the camera at the QR code.</li><li>Housetory will find the matching item record.</li><li>Review the record and update its status or location.</li></ol><div class="tip"><b>SHARED SYSTEM</b><p>Scan an item's QR label to retrieve its shared cloud inventory record. You must be signed in to use Housetory.</p></div></section></div>
+    </section>
+
+    <section class="page" id="reports">
+      <div class="toolbar"><div><h2>Inventory reports</h2><p>A quick summary of registered hotel assets.</p></div><button class="secondary" id="exportCsv">↓ Export CSV</button></div>
+      <div class="stats report-stats"><article class="stat-card"><span>Inventory value</span><strong id="valueStat">₱0.00</strong><small>Based on registered item values</small></article><article class="stat-card"><span>Damaged items</span><strong id="damagedStat">0</strong><small>Requires inspection or replacement</small></article><article class="stat-card"><span>Missing items</span><strong id="missingStat">0</strong><small>Requires follow-up</small></article></div>
+      <section class="panel"><div class="panel-heading"><div><h3>Items by status</h3><p>Current inventory breakdown</p></div></div><div id="statusBars" class="bars"></div></section>
+    </section>
+    <footer>Housetory <span>•</span> Prototype for hotel housekeeping inventory</footer>
+  </main>
+
+  <div class="modal-backdrop hidden" id="itemModal"><div class="modal"><div class="modal-head"><div><span class="eyebrow">INVENTORY RECORD</span><h2 id="modalTitle">Register item</h2></div><button class="close" data-close>×</button></div>
+    <form id="itemForm"><input type="hidden" id="editId"><div class="form-grid">
+      <label>Item name<input id="itemName" required placeholder="e.g. White pillowcase"></label>
+      <label>Item ID<input id="itemId" required placeholder="e.g. PC-001"></label>
+      <label>Category<select id="itemCategory"><option>Bed Linen</option><option>Bath Linen</option><option>Room Supplies</option><option>Other</option></select></label>
+      <label>Status<select id="itemStatus"><option>Available</option><option>In Use</option><option>Damaged</option><option>Missing</option><option>In Laundry</option></select></label>
+      <label>Location / Room<input id="itemLocation" placeholder="e.g. Storage or Room 205"></label>
+      <label>Item value (₱)<input id="itemValue" type="number" min="0" step="0.01" placeholder="0.00"></label>
+      <label class="wide">Notes / damage details<textarea id="itemNotes" rows="3" placeholder="Optional notes..."></textarea></label>
+    </div><div class="modal-actions"><button type="button" class="secondary" data-close>Cancel</button><button type="submit" class="primary">Save item</button></div></form>
+  </div></div>
+
+  <div class="modal-backdrop hidden" id="detailModal"><div class="modal detail-modal"><div class="modal-head"><div><span class="eyebrow">ITEM DETAILS</span><h2 id="detailName">Item</h2></div><button class="close" data-close>×</button></div><div class="detail-grid"><div id="detailFields" class="detail-fields"></div><div class="qr-card"><div id="qrCode"></div><b id="qrLabel">ITEM-ID</b><small>Scan to look up this item</small><button class="secondary full" id="printQr">Print QR label</button></div></div><div class="detail-actions"><button class="secondary" id="editDetail">Edit record</button><button class="danger-btn" id="deleteDetail">Delete item</button></div></div></div>
+  <div class="auth-backdrop" id="authGate">
+    <form class="auth-card" id="loginForm">
+      <img src="logo.svg" alt="" class="auth-logo">
+      <div class="eyebrow">HOTEL OPERATIONS</div>
+      <h1>Welcome to Housetory</h1>
+      <p>Sign in with your staff account to access the shared inventory.</p>
+      <label>Email address<input id="loginEmail" type="email" autocomplete="username" required placeholder="staff@hotel.com"></label>
+      <label>Password<input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Your password"></label>
+      <button class="primary full" id="loginBtn" type="submit">Sign in</button>
+      <small id="authMessage" class="auth-message">Staff accounts are created by your system administrator.</small>
+    </form>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
