@@ -1,7 +1,7 @@
 const $ = id => document.getElementById(id);
 const SUPABASE_URL = window.HOUSETORY_SUPABASE_URL;
 const SUPABASE_ANON_KEY = window.HOUSETORY_SUPABASE_ANON_KEY;
-let supabase = null, items = [], selectedItemId = null, scanner = null, currentUser = null, currentProfile = null, realtimeChannel = null;
+let items = [], selectedItemId = null, scanner = null, currentUser = null, currentProfile = null, realtimeChannel = null;
 const money = n => "₱" + Number(n || 0).toLocaleString("en-PH",{minimumFractionDigits:2,maximumFractionDigits:2});
 const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const statusClass = s => "status status-"+String(s).replace(/\s/g,"-");
